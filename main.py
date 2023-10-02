@@ -1,6 +1,6 @@
 """
     Домашне завдання № 8: реалізувати функцію для виведення списку колег, яких потрібно привітати з днем народження на тижні.
-        ### version 1.3.2
+        ### version 1.3.3
     особливості реалізації:
     21-22   - якщо список користувачів порожній
     27      - визначаємо сьогодняшню дату через date.today() 
@@ -28,19 +28,19 @@ def get_birthdays_per_week(users):
     # d_today = date(year=2023, month=10, day=3) # рядок для тестування!
     
     if d_today.weekday() == 0: 
-        d_today = d_today + timedelta(-2)
+        d_today -= timedelta(days=2)
     
     if d_today.weekday() == 6: 
-        d_today = d_today + timedelta(-1)
+        d_today -= timedelta(days=1)
     
-    d_end = d_today + timedelta(7)
+    d_end = d_today + timedelta(days=7)
         
     for user in users:
-        
+                       
         user["birthday"] = datetime(year=d_today.year, month=user["birthday"].month, day=user["birthday"].day)
         
         if user["birthday"].date() < d_today:
-            user["birthday"] = user["birthday"] + timedelta(365)
+            user["birthday"] += timedelta(days=365)
          
         if user["birthday"].date() < (d_end):
             if user["birthday"].weekday() in [5, 6]: 
@@ -76,3 +76,7 @@ if __name__ == "__main__":
     # Виводимо результат
     for day_name, names in result.items():
         print(f"{day_name}: {', '.join(names)}")
+
+
+ # для 29.02 треба визначитись, коли поздоровляти у невисокосний рік: 28.02 або 01.03 
+ # відповідно зробити рядок (39) з перевіркою на 29.02 та чи є високосним поточний рік
